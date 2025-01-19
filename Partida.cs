@@ -11,14 +11,20 @@ namespace KingOfTokyo
         public int PartidaID { get; set; }
         public int Torn {  get; set; }
         public int NumJugadors { get; set; }
+        public bool PartidaFinalitzada { get; set; }
         public ICollection<Monstre> Monstres { get; set; }
 
-        public Partida() { }
+        public Partida() 
+        {
+            Monstres = new HashSet<Monstre>();
+        }
 
-        public Partida(int torn, int numJugadors)
+        public Partida(int torn, int numJugadors, bool partidaFinalitzada)
         {
             Torn = torn;
             NumJugadors = numJugadors;
+            PartidaFinalitzada = partidaFinalitzada;
+            Monstres = new HashSet<Monstre>();
         }
 
         public override string ToString()

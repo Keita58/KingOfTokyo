@@ -14,13 +14,17 @@ namespace KingOfTokyo
         public int PartidesGuanyades { get; set; }
         public ICollection<Monstre> Monstres { get; set; }
 
-        public Jugador() { }
+        public Jugador() 
+        {
+            Monstres = new HashSet<Monstre>();
+        }
 
         public Jugador(string nom, string cognoms, int guanyades)
         {
             NomJugador = nom;
             CognomsJugador = cognoms;
             PartidesGuanyades = guanyades;
+            Monstres = new HashSet<Monstre>();
         }
 
         public override string ToString()

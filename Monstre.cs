@@ -13,24 +13,27 @@ namespace KingOfTokyo
         public int VidesMonstre { get; set; }
         public int PuntsVictoriaMonstre { get; set; }
         public int EnergiaMonstre { get; set; }
+        public bool IsMonstrePoder { get; set; }
         public bool EstaTokyo { get; set; }
         public bool? Eliminat { get; set; }
-        pu
         public Monstre IdMonstreAssociat { get; set; }
 
         public Monstre() {}
 
-        public Monstre(string nomMonstre)
+        public Monstre(string nomMonstre, bool monstrePoder, int energia)
         {
             NomMonstre = nomMonstre;
+            IsMonstrePoder = monstrePoder;
+            EnergiaMonstre = energia;
         }
 
-        public Monstre(string nomMonstre, int videsMonstre, int puntsVictoriaMonstre, int energiaMonstre, bool estaTokyo, bool? eliminat)
+        public Monstre(string nomMonstre, int videsMonstre, int puntsVictoriaMonstre, int energiaMonstre, bool monstrePoder, bool estaTokyo, bool? eliminat)
         {
             NomMonstre = nomMonstre;
             VidesMonstre = videsMonstre;
             PuntsVictoriaMonstre = puntsVictoriaMonstre;
             EnergiaMonstre = energiaMonstre;
+            IsMonstrePoder = monstrePoder;
             EstaTokyo = estaTokyo;
             Eliminat = eliminat;
         }
