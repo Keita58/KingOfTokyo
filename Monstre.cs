@@ -40,7 +40,7 @@ namespace KingOfTokyo
 
         public override string ToString()
         {
-            return "Nom del monstre: " + NomMonstre + ", vides actuals: " + VidesMonstre + ", punts de victòria: " + PuntsVictoriaMonstre + ", energia del monstre: " + EnergiaMonstre + (IdMonstreAssociat != null ? ", monstre associat: " + IdMonstreAssociat.NomMonstre : "");
+            return "Nom del monstre: " + NomMonstre + ", vides actuals: " + VidesMonstre + ", punts de victòria: " + PuntsVictoriaMonstre + ", està a Tokyo? " + EstaTokyo +  ", energia del monstre: " + EnergiaMonstre + (IdMonstreAssociat != null ? ", monstre associat: " + IdMonstreAssociat.NomMonstre : "");
         }
     }
 }
