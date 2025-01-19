@@ -15,9 +15,15 @@ namespace KingOfTokyo
         public int EnergiaMonstre { get; set; }
         public bool EstaTokyo { get; set; }
         public bool? Eliminat { get; set; }
+        pu
         public Monstre IdMonstreAssociat { get; set; }
 
         public Monstre() {}
+
+        public Monstre(string nomMonstre)
+        {
+            NomMonstre = nomMonstre;
+        }
 
         public Monstre(string nomMonstre, int videsMonstre, int puntsVictoriaMonstre, int energiaMonstre, bool estaTokyo, bool? eliminat)
         {
@@ -27,6 +33,11 @@ namespace KingOfTokyo
             EnergiaMonstre = energiaMonstre;
             EstaTokyo = estaTokyo;
             Eliminat = eliminat;
+        }
+
+        public override string ToString()
+        {
+            return "Nom del monstre: " + NomMonstre + ", vides actuals: " + VidesMonstre + ", punts de victòria: " + PuntsVictoriaMonstre + ", energia del monstre: " + EnergiaMonstre + (IdMonstreAssociat != null ? ", monstre associat: " + IdMonstreAssociat.NomMonstre : "");
         }
     }
 }
