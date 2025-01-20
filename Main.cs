@@ -181,19 +181,19 @@ namespace KingOfTokyo
                                             ctx.SaveChanges();
 
                                             int intercanvi = r.Next(1, 3);
-                                            if (intercanvi == 1)
-                                            {
-                                                tokyo.EstaTokyo = false;
-                                                monstre.EstaTokyo = true;
-                                                ctx.SaveChanges();
-                                                Console.WriteLine("El monstre " + monstre.NomMonstre + " ara és a Tokyo. Abans hi era: " + tokyo.NomMonstre);
-                                            }
-                                            else if(tokyo.VidesMonstre <= 0)
+                                            if (tokyo.VidesMonstre <= 0)
                                             {
                                                 tokyo.EstaTokyo = false;
                                                 monstre.EstaTokyo = true;
                                                 ctx.SaveChanges();
                                                 Console.WriteLine("El monstre " + monstre.NomMonstre + " ara és a Tokyo. Abans hi era: " + tokyo.NomMonstre + " i ha mort :(");
+                                            }
+                                            else if (intercanvi == 1)
+                                            {
+                                                tokyo.EstaTokyo = false;
+                                                monstre.EstaTokyo = true;
+                                                ctx.SaveChanges();
+                                                Console.WriteLine("El monstre " + monstre.NomMonstre + " ara és a Tokyo. Abans hi era: " + tokyo.NomMonstre);
                                             }
                                             else
                                                 Console.WriteLine("El monstre ha fet mal al monstre de Tokyo i ha decidit no canviar.");
