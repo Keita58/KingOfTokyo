@@ -126,7 +126,8 @@ namespace KingOfTokyo
                             {
                                 if (ju != j)
                                 {
-                                    monstresEnemics.Add(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault());
+                                    if(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault() != null)
+                                        monstresEnemics.Add(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault());
                                 }
                             }
                             Console.WriteLine();
