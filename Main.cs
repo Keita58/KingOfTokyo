@@ -41,33 +41,7 @@ namespace KingOfTokyo
                 ctx.Monstres.Add(escupidor);
                 ctx.SaveChanges();
 
-                int jugadorsPartida = 0;
-                bool sortir = true;
-                while (sortir)
-                {
-                    Console.WriteLine("Quants jugadors jugaran? (2-4)");
-                    string jugadors = Console.ReadLine();
-
-                    switch (jugadors)
-                    {
-                        case "2":
-                            jugadorsPartida = 2;
-                            sortir = false;
-                            break;
-                        case "3":
-                            jugadorsPartida = 3;
-                            sortir = false;
-                            break;
-                        case "4":
-                            jugadorsPartida = 4;
-                            sortir = false;
-                            break;
-                        default:
-                            Console.WriteLine("Has de posar un número vàlid de jugadors :(");
-                            break;
-                    }
-                }
-
+                int jugadorsPartida = r.Next(2, 5);
                 Partida p = new Partida(0, jugadorsPartida, false);
                 ctx.Partides.Add(p);
                 ctx.SaveChanges();
@@ -89,7 +63,7 @@ namespace KingOfTokyo
                 for (int i = 0; i < jugadorsPartida; i++)
                 {
                     int num = r.Next(0, monstresPartida.Count);
-                    jPartida[i].Monstres.Add(monstresPartida[num]);
+                    jPartida[i].Monstres = monstresPartida[num];
                     p.Monstres.Add(monstresPartida[num]);
                     monstresPartida.Remove(monstresPartida[num]);
                     ctx.SaveChanges();
@@ -107,8 +81,8 @@ namespace KingOfTokyo
 
                     for (int i = jugadorsJugant.Count - 1; i >= 0; i--)
                     {
-                        Monstre aux = jugadorsJugant[i].Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre <= 0).FirstOrDefault();
-                        if (aux != null)
+                        Monstre aux = jugadorsJugant[i].Monstres;
+                        if (aux.VidesMonstre <= 0)
                         {
                             jugadorsJugant.RemoveAt(i);
                         }
@@ -118,16 +92,16 @@ namespace KingOfTokyo
                     {
                         Dictionary<int, int> numDaus = new Dictionary<int, int> { { 1, 0 }, { 2, 0 }, { 3, 0 } };
 
-                        Monstre monstre = j.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault();
-                        if (monstre != null) 
+                        Monstre monstre = j.Monstres;
+                        if (monstre.VidesMonstre > 0) 
                         {
                             List<Monstre> monstresEnemics = new List<Monstre>();
                             foreach (Jugador ju in jugadorsJugant)
                             {
                                 if (ju != j)
                                 {
-                                    if(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault() != null)
-                                        monstresEnemics.Add(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault());
+                                    if(ju.Monstres.VidesMonstre > 0)
+                                        monstresEnemics.Add(ju.Monstres);
                                 }
                             }
                             Console.WriteLine();
@@ -346,26 +320,31 @@ namespace KingOfTokyo
 
                                 int monstresDisponibles = mPoder.Count();
 
-                                for (int i = 0; i < monstresDisponibles; i++)
+                                if(monstre.IdMonstreAssociat == null)
                                 {
-                                    if (monstre.EnergiaMonstre >= mPoder[i].EnergiaMonstre)
+                                    for (int i = 0; i < monstresDisponibles; i++)
                                     {
-                                        monstre.EnergiaMonstre -= mPoder[i].EnergiaMonstre;
-                                        monstre.IdMonstreAssociat = mPoder[i];
-                                        mPoder[i].IdMonstreAssociat = monstre;
-                                        Console.WriteLine("El jugador " + j.NomJugador + " " + j.CognomsJugador + " ha comprat el monstre amb poder " + mPoder[i].NomMonstre);
+                                        if (monstre.EnergiaMonstre >= mPoder[i].EnergiaMonstre)
+                                        {
+                                            monstre.EnergiaMonstre -= mPoder[i].EnergiaMonstre;
+                                            monstre.IdMonstreAssociat = mPoder[i];
+                                            mPoder[i].IdMonstreAssociat = monstre;
+                                            Console.WriteLine("El jugador " + j.NomJugador + " " + j.CognomsJugador + " ha comprat el monstre amb poder " + mPoder[i].NomMonstre);
+                                            break;
+                                        }
                                     }
+                                    ctx.SaveChanges();
                                 }
-                                ctx.SaveChanges();
+                                
                             }
 
                             List<Monstre> monstresVius = new List<Monstre>();
                             foreach (Jugador ju in jugadorsJugant)
                             {
-                                if (ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).FirstOrDefault() != null)
+                                if (ju.Monstres != null)
                                 {
-                                    monstresVius.Add(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).First());
-                                    Console.WriteLine(ju.Monstres.Where(x => x.IsMonstrePoder == false && x.VidesMonstre > 0).First().ToString());
+                                    monstresVius.Add(ju.Monstres);
+                                    Console.WriteLine(ju.Monstres.ToString());
                                 }
                             }
 

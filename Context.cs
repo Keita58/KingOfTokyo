@@ -9,7 +9,7 @@ namespace KingOfTokyo
 {
     public class Context : DbContext
     {
-        public Context():base("KingTokyo") { }
+        public Context():base("tokio") { }
 
         public DbSet<Partida> Partides { get; set; }
         public DbSet<Monstre> Monstres { get; set; }

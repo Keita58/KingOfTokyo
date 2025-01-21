@@ -12,11 +12,10 @@ namespace KingOfTokyo
         public string NomJugador { get; set; }
         public string CognomsJugador { get; set; }
         public int PartidesGuanyades { get; set; }
-        public ICollection<Monstre> Monstres { get; set; }
+        public Monstre Monstres { get; set; }
 
         public Jugador() 
         {
-            Monstres = new HashSet<Monstre>();
         }
 
         public Jugador(string nom, string cognoms, int guanyades)
@@ -24,7 +23,6 @@ namespace KingOfTokyo
             NomJugador = nom;
             CognomsJugador = cognoms;
             PartidesGuanyades = guanyades;
-            Monstres = new HashSet<Monstre>();
         }
 
         public override string ToString()
