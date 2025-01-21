@@ -101,7 +101,9 @@ namespace KingOfTokyo
                                 if (ju != j)
                                 {
                                     if(ju.Monstres.VidesMonstre > 0)
+                                    {
                                         monstresEnemics.Add(ju.Monstres);
+                                    }
                                 }
                             }
                             Console.WriteLine();
@@ -341,7 +343,7 @@ namespace KingOfTokyo
                             List<Monstre> monstresVius = new List<Monstre>();
                             foreach (Jugador ju in jugadorsJugant)
                             {
-                                if (ju.Monstres != null)
+                                if (ju.Monstres.VidesMonstre > 0)
                                 {
                                     monstresVius.Add(ju.Monstres);
                                     Console.WriteLine(ju.Monstres.ToString());
