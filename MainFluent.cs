@@ -1,109 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KingOfTokyo
 {
-    public static class Program
+    public static class MainFluent
     {
         static Random r = new Random();
-        /*
         static void Main(string[] args)
         {
-            using (Context ctx = new Context())
+            using (ContextFluent ctx = new ContextFluent())
             {
-                Monstre king = new Monstre("King", 10, 0, 0, false, false, null);
-                Monstre mekaDracron = new Monstre("MekaDracron", 10, 0, 0, false, false, null);
-                Monstre ciberkitty = new Monstre("Ciberkitty", 10, 0, 0, false, false, null);
-                Monstre gigazaur = new Monstre("Gigazaur", 10, 0, 0, false, false, null);
-                Monstre penguin = new Monstre("Space Penguin", 10, 0, 0, false, false, null);
-                Monstre alienoid = new Monstre("Alienoid", 10, 0, 0, false, false, null);
+                MonstreAnotacio king = new MonstreAnotacio("King", 10, 0, 0, false, false, null);
+                MonstreAnotacio mekaDracron = new MonstreAnotacio("MekaDracron", 10, 0, 0, false, false, null);
+                MonstreAnotacio ciberkitty = new MonstreAnotacio("Ciberkitty", 10, 0, 0, false, false, null);
+                MonstreAnotacio gigazaur = new MonstreAnotacio("Gigazaur", 10, 0, 0, false, false, null);
+                MonstreAnotacio penguin = new MonstreAnotacio("Space Penguin", 10, 0, 0, false, false, null);
+                MonstreAnotacio alienoid = new MonstreAnotacio("Alienoid", 10, 0, 0, false, false, null);
 
-                Monstre aliento = new Monstre("Aliento Flamígero", true, 3);
-                Monstre mimetismo = new Monstre("Mimetismo", true, 8);
-                Monstre rayo = new Monstre("Monstruo con Rayo Reductor", true, 6);
-                Monstre escupidor = new Monstre("Monstruo Escupidor de Veneno", true, 4);
+                MonstreAnotacio aliento = new MonstreAnotacio("Aliento Flamígero", true, 3);
+                MonstreAnotacio mimetismo = new MonstreAnotacio("Mimetismo", true, 8);
+                MonstreAnotacio rayo = new MonstreAnotacio("Monstruo con Rayo Reductor", true, 6);
+                MonstreAnotacio escupidor = new MonstreAnotacio("Monstruo Escupidor de Veneno", true, 4);
 
                 //Monstres
-                ctx.Monstres.Add(king);
-                ctx.Monstres.Add(mekaDracron);
-                ctx.Monstres.Add(ciberkitty);
-                ctx.Monstres.Add(gigazaur);
-                ctx.Monstres.Add(penguin);
-                ctx.Monstres.Add(alienoid);
+                ctx.MonstresFluent.Add(king);
+                ctx.MonstresFluent.Add(mekaDracron);
+                ctx.MonstresFluent.Add(ciberkitty);
+                ctx.MonstresFluent.Add(gigazaur);
+                ctx.MonstresFluent.Add(penguin);
+                ctx.MonstresFluent.Add(alienoid);
 
                 //Monstres de poder
-                ctx.Monstres.Add(aliento);
-                ctx.Monstres.Add(mimetismo);
-                ctx.Monstres.Add(rayo);
-                ctx.Monstres.Add(escupidor);
+                ctx.MonstresFluent.Add(aliento);
+                ctx.MonstresFluent.Add(mimetismo);
+                ctx.MonstresFluent.Add(rayo);
+                ctx.MonstresFluent.Add(escupidor);
                 ctx.SaveChanges();
 
                 int jugadorsPartida = r.Next(2, 5);
-                Partida p = new Partida(0, jugadorsPartida, false);
-                ctx.Partides.Add(p);
-                ctx.SaveChanges();
-
-                for (int i = 0; i < jugadorsPartida; i++)
-                {
-                    Jugador j = new Jugador("Jugador", Convert.ToString((i + 1)), 0);
-                    ctx.Jugadors.Add(j);
-                }
+                PartidaAnotacio p = new PartidaAnotacio(0, jugadorsPartida, false);
+                ctx.PartidesFluent.Add(p);
                 ctx.SaveChanges();
 
                 //Començar partida amb dades anteriors
-                List<Monstre> monstresPartida = ctx.Monstres.Where(x => x.IsMonstrePoder == false).ToList();
-                List<Jugador> jPartida = ctx.Jugadors.ToList();
+                List<MonstreAnotacio> monstresPartida = ctx.MonstresFluent.Where(x => x.IsMonstrePoder == false).ToList();
 
                 monstresPartida.Shuffle();
-                jPartida.Shuffle();
 
                 for (int i = 0; i < jugadorsPartida; i++)
                 {
+                    JugadorAnotacio j = new JugadorAnotacio("Jugador", Convert.ToString((i + 1)), 0);
+
                     int num = r.Next(0, monstresPartida.Count);
-                    jPartida[i].Monstres = monstresPartida[num];
-                    p.Monstres.Add(monstresPartida[num]);
-                    monstresPartida.Remove(monstresPartida[num]);
+                    j.MonstresInverse = monstresPartida[num];
+                    monstresPartida[num].PartidesJugades = p;
+                    monstresPartida[num].Jugador = j;
+                    p.MonstresPartides.Add(monstresPartida[num]);
+                    ctx.JugadorsFluent.Add(j);
                     ctx.SaveChanges();
+                    monstresPartida.Remove(monstresPartida[num]);
                 }
 
-                Partida pActual = ctx.Partides.Where(x => x.PartidaFinalitzada == false).FirstOrDefault();
+
+                PartidaAnotacio pActual = ctx.PartidesFluent.Where(x => x.PartidaFinalitzada == false).FirstOrDefault();
 
                 bool continuar = true;
 
                 //Partida en si
                 while (continuar)
                 {
-                    List<Jugador> jugadorsJugant = ctx.Jugadors.ToList();
+                    List<JugadorAnotacio> jugadorsJugant = ctx.JugadorsFluent.ToList();
                     jugadorsJugant.Shuffle();
 
                     for (int i = jugadorsJugant.Count - 1; i >= 0; i--)
                     {
-                        Monstre aux = jugadorsJugant[i].Monstres;
+                        MonstreAnotacio aux = jugadorsJugant[i].MonstresInverse;
                         if (aux.VidesMonstre <= 0)
                         {
                             jugadorsJugant.RemoveAt(i);
                         }
                     }
 
-                    foreach (Jugador j in jugadorsJugant)
+                    foreach (JugadorAnotacio j in jugadorsJugant)
                     {
                         Dictionary<int, int> numDaus = new Dictionary<int, int> { { 1, 0 }, { 2, 0 }, { 3, 0 } };
 
-                        Monstre monstre = j.Monstres;
-                        if (monstre.VidesMonstre > 0) 
+                        MonstreAnotacio monstre = j.MonstresInverse;
+                        if (monstre.VidesMonstre > 0)
                         {
-                            List<Monstre> monstresEnemics = new List<Monstre>();
-                            foreach (Jugador ju in jugadorsJugant)
+                            List<MonstreAnotacio> monstresEnemics = new List<MonstreAnotacio>();
+                            foreach (JugadorAnotacio ju in jugadorsJugant)
                             {
                                 if (ju != j)
                                 {
-                                    if(ju.Monstres.VidesMonstre > 0)
+                                    if (ju.MonstresInverse.VidesMonstre > 0)
                                     {
-                                        monstresEnemics.Add(ju.Monstres);
+                                        monstresEnemics.Add(ju.MonstresInverse);
                                     }
                                 }
                             }
@@ -142,8 +137,8 @@ namespace KingOfTokyo
                                         //Peta aquí quan es tiren dos 5 seguits o quan es canvia de monstre a Tokyo
                                         if (monstre.EstaTokyo)
                                         {
-                                            List<Monstre> monstresNoTokyo = monstresEnemics.Where(x => x.VidesMonstre > 0 && x.EstaTokyo == false).ToList();
-                                            foreach (Monstre m in monstresNoTokyo)
+                                            List<MonstreAnotacio> monstresNoTokyo = monstresEnemics.Where(x => x.VidesMonstre > 0 && x.EstaTokyo == false).ToList();
+                                            foreach (MonstreAnotacio m in monstresNoTokyo)
                                             {
                                                 m.VidesMonstre--;
                                                 Console.WriteLine("Menys 1 vida a " + m.NomMonstre);
@@ -152,7 +147,7 @@ namespace KingOfTokyo
                                         }
                                         else
                                         {
-                                            Monstre tokyo = monstresEnemics.Where(x => x.VidesMonstre > 0 && x.EstaTokyo == true).First();
+                                            MonstreAnotacio tokyo = monstresEnemics.Where(x => x.VidesMonstre > 0 && x.EstaTokyo == true).First();
                                             tokyo.VidesMonstre--;
                                             Console.WriteLine("He fet mal al monstre " + tokyo.NomMonstre + " que està a Tokyo");
                                             ctx.SaveChanges();
@@ -243,13 +238,13 @@ namespace KingOfTokyo
                                     {
                                         case "Aliento Flamígero":
                                             Console.WriteLine("Jugador fa servir Aliento Flamígero!");
-                                            foreach (Monstre m in monstresEnemics)
+                                            foreach (MonstreAnotacio m in monstresEnemics)
                                             {
                                                 m.VidesMonstre--;
                                                 ctx.SaveChanges();
                                             }
 
-                                            Monstre tokyo = monstresEnemics.Where(x => x.EstaTokyo == true).FirstOrDefault();
+                                            MonstreAnotacio tokyo = monstresEnemics.Where(x => x.EstaTokyo == true).FirstOrDefault();
 
                                             if (tokyo != null && tokyo.VidesMonstre <= 0)
                                             {
@@ -268,7 +263,7 @@ namespace KingOfTokyo
                                             break;
                                         case "Mimetismo":
                                             Console.WriteLine("Jugador fa servir Aliento Mimetismo!");
-                                            Monstre monstreRandomMimetismo = monstresEnemics.FirstOrDefault();
+                                            MonstreAnotacio monstreRandomMimetismo = monstresEnemics.FirstOrDefault();
                                             int aux = monstre.VidesMonstre;
                                             monstre.VidesMonstre = monstreRandomMimetismo.VidesMonstre;
                                             monstreRandomMimetismo.VidesMonstre = aux;
@@ -284,7 +279,7 @@ namespace KingOfTokyo
                                             monstresEnemics.Shuffle();
                                             monstresEnemics.First().VidesMonstre--;
 
-                                            Monstre tokyo2 = monstresEnemics.Where(x => x.EstaTokyo == true).FirstOrDefault();
+                                            MonstreAnotacio tokyo2 = monstresEnemics.Where(x => x.EstaTokyo == true).FirstOrDefault();
 
                                             if (tokyo2 != null && tokyo2.VidesMonstre <= 0)
                                             {
@@ -318,12 +313,12 @@ namespace KingOfTokyo
                             }
                             else
                             {
-                                List<Monstre> mPoder = ctx.Monstres.Where(x => x.IsMonstrePoder == true && x.IdMonstreAssociat == null).ToList();
+                                List<MonstreAnotacio> mPoder = ctx.MonstresFluent.Where(x => x.IsMonstrePoder == true && x.IdMonstreAssociat == null).ToList();
                                 mPoder.Shuffle();
 
                                 int monstresDisponibles = mPoder.Count();
 
-                                if(monstre.IdMonstreAssociat == null)
+                                if (monstre.IdMonstreAssociat == null)
                                 {
                                     for (int i = 0; i < monstresDisponibles; i++)
                                     {
@@ -338,16 +333,16 @@ namespace KingOfTokyo
                                     }
                                     ctx.SaveChanges();
                                 }
-                                
+
                             }
 
-                            List<Monstre> monstresVius = new List<Monstre>();
-                            foreach (Jugador ju in jugadorsJugant)
+                            List<MonstreAnotacio> monstresVius = new List<MonstreAnotacio>();
+                            foreach (JugadorAnotacio ju in jugadorsJugant)
                             {
-                                if (ju.Monstres.VidesMonstre > 0)
+                                if (ju.MonstresInverse.VidesMonstre > 0)
                                 {
-                                    monstresVius.Add(ju.Monstres);
-                                    Console.WriteLine(ju.Monstres.ToString());
+                                    monstresVius.Add(ju.MonstresInverse);
+                                    Console.WriteLine(ju.MonstresInverse.ToString());
                                 }
                             }
 
@@ -381,6 +376,6 @@ namespace KingOfTokyo
                 list[k] = list[n];
                 list[n] = value;
             }
-        }*/
+        }
     }
 }

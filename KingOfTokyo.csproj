@@ -53,11 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextFluent.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Jugador.cs" />
+    <Compile Include="JugadorAnotacio.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MainFluent.cs" />
     <Compile Include="Monstre.cs" />
+    <Compile Include="MonstreAnotacio.cs" />
     <Compile Include="Partida.cs" />
+    <Compile Include="PartidaAnotacio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
