@@ -17,7 +17,7 @@ namespace KingOfTokyo
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<Context>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<ContextFluent>());
             base.OnModelCreating(modelBuilder);
 
             /**
