@@ -10,7 +10,7 @@ namespace KingOfTokyo
     public static class Program
     {
         static Random r = new Random();
-        /*
+        
         static void Main(string[] args)
         {
             using (Context ctx = new Context())
@@ -64,8 +64,8 @@ namespace KingOfTokyo
                 for (int i = 0; i < jugadorsPartida; i++)
                 {
                     int num = r.Next(0, monstresPartida.Count);
-                    jPartida[i].Monstres = monstresPartida[num];
                     p.Monstres.Add(monstresPartida[num]);
+                    monstresPartida[num].IdJugador = jPartida[i];
                     monstresPartida.Remove(monstresPartida[num]);
                     ctx.SaveChanges();
                 }
@@ -80,9 +80,11 @@ namespace KingOfTokyo
                     List<Jugador> jugadorsJugant = ctx.Jugadors.ToList();
                     jugadorsJugant.Shuffle();
 
+                    List<Monstre> auxMonstres = ctx.Monstres.ToList();
+
                     for (int i = jugadorsJugant.Count - 1; i >= 0; i--)
                     {
-                        Monstre aux = jugadorsJugant[i].Monstres;
+                        Monstre aux = auxMonstres.Where(x => x.IdJugador != null && x.IdJugador.Equals(jugadorsJugant[i])).First();
                         if (aux.VidesMonstre <= 0)
                         {
                             jugadorsJugant.RemoveAt(i);
@@ -93,7 +95,7 @@ namespace KingOfTokyo
                     {
                         Dictionary<int, int> numDaus = new Dictionary<int, int> { { 1, 0 }, { 2, 0 }, { 3, 0 } };
 
-                        Monstre monstre = j.Monstres;
+                        Monstre monstre = auxMonstres.Where(x => x.IdJugador != null && x.IdJugador.Equals(j)).First();
                         if (monstre.VidesMonstre > 0) 
                         {
                             List<Monstre> monstresEnemics = new List<Monstre>();
@@ -101,12 +103,14 @@ namespace KingOfTokyo
                             {
                                 if (ju != j)
                                 {
-                                    if(ju.Monstres.VidesMonstre > 0)
+                                    Monstre aux = auxMonstres.Where(x => x.IdJugador != null && x.IdJugador.Equals(ju)).First();
+                                    if (aux.VidesMonstre > 0)
                                     {
-                                        monstresEnemics.Add(ju.Monstres);
+                                        monstresEnemics.Add(aux);
                                     }
                                 }
                             }
+
                             Console.WriteLine();
                             Console.WriteLine("Torn del jugador " + j.NomJugador + " " + j.CognomsJugador + " amb el monstre " + monstre.NomMonstre + " (Torn " + pActual.Torn + ")");
                             if (pActual.Torn == 0)
@@ -344,10 +348,11 @@ namespace KingOfTokyo
                             List<Monstre> monstresVius = new List<Monstre>();
                             foreach (Jugador ju in jugadorsJugant)
                             {
-                                if (ju.Monstres.VidesMonstre > 0)
+                                Monstre aux = auxMonstres.Where(x => x.IdJugador != null && x.IdJugador.Equals(ju)).First();
+                                if (aux.VidesMonstre > 0)
                                 {
-                                    monstresVius.Add(ju.Monstres);
-                                    Console.WriteLine(ju.Monstres.ToString());
+                                    monstresVius.Add(aux);
+                                    Console.WriteLine(aux.ToString());
                                 }
                             }
 
@@ -381,6 +386,6 @@ namespace KingOfTokyo
                 list[k] = list[n];
                 list[n] = value;
             }
-        }*/
+        }
     }
 }

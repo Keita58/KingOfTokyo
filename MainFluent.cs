@@ -9,6 +9,7 @@ namespace KingOfTokyo
     public static class MainFluent
     {
         static Random r = new Random();
+        /*
         static void Main(string[] args)
         {
             using (ContextFluent ctx = new ContextFluent())
@@ -376,6 +377,6 @@ namespace KingOfTokyo
                 list[k] = list[n];
                 list[n] = value;
             }
-        }
+        }*/
     }
 }

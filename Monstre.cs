@@ -17,6 +17,7 @@ namespace KingOfTokyo
         public bool EstaTokyo { get; set; }
         public bool? Eliminat { get; set; }
         public Monstre IdMonstreAssociat { get; set; }
+        public Jugador IdJugador { get; set; }
 
         public Monstre() {}
 

@@ -12,7 +12,6 @@ namespace KingOfTokyo
         public string NomJugador { get; set; }
         public string CognomsJugador { get; set; }
         public int PartidesGuanyades { get; set; }
-        public Monstre Monstres { get; set; }
 
         public Jugador() 
         {
